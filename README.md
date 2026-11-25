@@ -1,10 +1,23 @@
-# Ajyal Store — Multi-Vendor E-Commerce Platform
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=php,laravel,mysql,vite,tailwind,alpinejs,js" alt="Tech stack" />
+</p>
+
+# 🛒 Ajyal Store — Multi-Vendor E-Commerce Platform
+
+<p>
+  <img src="https://img.shields.io/badge/Laravel-12-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel 12" />
+  <img src="https://img.shields.io/badge/PHP-8.2%2B-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP 8.2+" />
+  <img src="https://img.shields.io/badge/MySQL-database-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL" />
+  <img src="https://img.shields.io/badge/Stripe-checkout-635BFF?style=for-the-badge&logo=stripe&logoColor=white" alt="Stripe" />
+  <img src="https://img.shields.io/badge/Pusher-real--time-300D4F?style=for-the-badge&logo=pusher&logoColor=white" alt="Pusher" />
+  <img src="https://img.shields.io/badge/Tailwind-CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind" />
+</p>
 
 A full-featured e-commerce platform built with **Laravel 12** and **PHP 8.2+**. Customers shop from multiple vendor stores through a single catalog and cart, while vendors and admins manage everything from a role-based dashboard.
 
-## Features
+## ✨ Features
 
-### Storefront
+### 🛍️ Storefront
 - Product catalog with categories, tags, and per-store organization
 - Cart, coupons, and multi-currency conversion
 - Checkout with **Stripe** (redirect checkout + webhook for payment status updates)
@@ -12,7 +25,7 @@ A full-featured e-commerce platform built with **Laravel 12** and **PHP 8.2+**. 
 - Multilingual interface (`mcamara/laravel-localization`)
 - Social login (Laravel Socialite), email verification, and **two-factor authentication** (Laravel Fortify)
 
-### Admin dashboard (`/admin/dashboard`)
+### 🛠️ Admin dashboard (`/admin/dashboard`)
 - Separate `admin` guard with its own authentication
 - **Roles & abilities**: per-admin permissions enforced with Laravel gates (e.g. `can:admins.index`)
 - Manage stores, products, categories, coupons, orders, users, and admins
@@ -20,11 +33,11 @@ A full-featured e-commerce platform built with **Laravel 12** and **PHP 8.2+**. 
 - Product import
 - Notifications with real-time events (**Pusher** / Laravel Echo)
 
-### REST API
+### 🔌 REST API
 - Token-authenticated product API (`/api/product1`) with **Laravel Sanctum**
 - Token issue/revoke endpoints (`/api/auth/token`)
 
-## Tech Stack
+## 🧰 Tech Stack
 
 | Layer | Tools |
 | --- | --- |
@@ -35,7 +48,7 @@ A full-featured e-commerce platform built with **Laravel 12** and **PHP 8.2+**. 
 | Frontend | Blade, Vite, Tailwind CSS, Alpine.js, jQuery |
 | i18n | mcamara/laravel-localization, symfony/intl |
 
-## Installation
+## 🚀 Installation
 
 **Requirements:** PHP 8.2+, Composer, Node.js 18+, MySQL
 
@@ -67,7 +80,7 @@ php artisan serve
 
 > Steps 2–6 can also run in one shot with `composer run setup` (uses `migrate --force` without seeding).
 
-### Optional services
+### 🔑 Optional services
 
 The app works locally without these, but the related features need keys in `.env`:
 
@@ -80,7 +93,7 @@ The app works locally without these, but the related features need keys in `.env
 
 The admin dashboard lives at `/admin/dashboard` and requires an admin account (see `UserSeeder` / dashboard admin management).
 
-## Testing
+## 🧪 Testing
 
 ```bash
 php artisan test
