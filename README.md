@@ -1,59 +1,87 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Ajyal Store — Multi-Vendor E-Commerce Platform
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A full-featured e-commerce platform built with **Laravel 12** and **PHP 8.2+**. Customers shop from multiple vendor stores through a single catalog and cart, while vendors and admins manage everything from a role-based dashboard.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Storefront
+- Product catalog with categories, tags, and per-store organization
+- Cart, coupons, and multi-currency conversion
+- Checkout with **Stripe** (redirect checkout + webhook for payment status updates)
+- Order history with order cancellation
+- Multilingual interface (`mcamara/laravel-localization`)
+- Social login (Laravel Socialite), email verification, and **two-factor authentication** (Laravel Fortify)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Admin dashboard (`/admin/dashboard`)
+- Separate `admin` guard with its own authentication
+- **Roles & abilities**: per-admin permissions enforced with Laravel gates (e.g. `can:admins.index`)
+- Manage stores, products, categories, coupons, orders, users, and admins
+- Soft deletes with trash / restore / force-delete for stores, products, and categories
+- Product import
+- Notifications with real-time events (**Pusher** / Laravel Echo)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### REST API
+- Token-authenticated product API (`/api/product1`) with **Laravel Sanctum**
+- Token issue/revoke endpoints (`/api/auth/token`)
 
-## Learning Laravel
+## Tech Stack
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+| Layer | Tools |
+| --- | --- |
+| Backend | Laravel 12, PHP 8.2+, MySQL |
+| Auth | Fortify (2FA), Sanctum (API tokens), Socialite (social login), custom `admin` guard |
+| Payments | Stripe (`stripe/stripe-php`) |
+| Real-time | Pusher, Laravel Echo |
+| Frontend | Blade, Vite, Tailwind CSS, Alpine.js, jQuery |
+| i18n | mcamara/laravel-localization, symfony/intl |
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Installation
 
-## Laravel Sponsors
+**Requirements:** PHP 8.2+, Composer, Node.js 18+, MySQL
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+# 1. Clone the repository
+git clone https://github.com/Dr-Demon-M/ajyal-store.git
+cd ajyal-store
 
-### Premium Partners
+# 2. Install PHP dependencies
+composer install
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+# 3. Environment setup
+cp .env.example .env
+php artisan key:generate
 
-## Contributing
+# 4. Create a MySQL database (default name: store)
+#    then set DB_DATABASE / DB_USERNAME / DB_PASSWORD in .env
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+# 5. Run migrations and seeders
+php artisan migrate --seed
 
-## Code of Conduct
+# 6. Install and build frontend assets
+npm install
+npm run build        # or: npm run dev
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# 7. Serve the app
+php artisan serve
+```
 
-## Security Vulnerabilities
+> Steps 2–6 can also run in one shot with `composer run setup` (uses `migrate --force` without seeding).
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Optional services
 
-## License
+The app works locally without these, but the related features need keys in `.env`:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+| Feature | .env keys |
+| --- | --- |
+| Stripe checkout | `STRIPE_KEY`, `STRIPE_SECRET`, webhook secret |
+| Real-time notifications | `PUSHER_APP_ID`, `PUSHER_APP_KEY`, `PUSHER_APP_SECRET`, `PUSHER_APP_CLUSTER`, `BROADCAST_CONNECTION=pusher` |
+| Social login | provider client ID/secret (Laravel Socialite) |
+| Mail (verification, 2FA) | `MAIL_*` |
+
+The admin dashboard lives at `/admin/dashboard` and requires an admin account (see `UserSeeder` / dashboard admin management).
+
+## Testing
+
+```bash
+php artisan test
+```
